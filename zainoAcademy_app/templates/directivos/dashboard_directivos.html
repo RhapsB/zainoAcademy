@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Directivo </title>
+    <link rel="stylesheet" href="{% static 'css/directivos/dashboard_directivos.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,600,700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/vnd.icon" href="{% static 'images/favicon/Favicon.png' %}">
+</head>
+<body class="dashboard-page">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="{% static 'images/acudientes/Favicon.png' %}" alt="Logo Libro"/>
+            <img src="{% static 'images/acudientes/LogoNormal-removebg-preview.png' %}" alt="Logo Zaino Academy" />
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="{% url 'dashboard_acudientes' %}" class="nav-item active">
+                    <img src="{% static 'images/acudientes/inicio.png' %}" class="nav-icon" alt="Inicio"> Inicio
+                </a></li>
+                
+                <li><a href="{% url 'actividades_acudientes' %}" class="nav-item">
+                    <img src="{% static 'images/acudientes/actividades.png' %}" class="nav-icon" alt="Actividades"> Actividades
+                </a></li>
+                
+                <li><a href="{% url 'asistencia_acudientes' %}" class="nav-item">
+                    <img src="{% static 'images/acudientes/asistencia.png' %}" class="nav-icon" alt="Asistencia"> Asistencia
+                </a></li>
+            </ul>
+        </nav>
+        <div class="logout-container">
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <button type="button" class="logout-btn" onclick="openModal()">Cerrar sesión</button>
+            </form>
+        </div>
+    </aside>
+    
+    <main class="main-content">
+        <header class="page-header">
+            <div class="header-icons">
+                <!-- Notificaciones -->
+                <a href="{% url 'notificaciones_acudientes' %}">
+                    <img src="{% static 'images/acudientes/notificaciones.png' %}" class="header-icon" alt="Notificaciones">
+                </a>
+                
+                <!-- Nombre -->
+                <span class="user-name">{{ usuario.Us_nombre }}</span>
+                
+                <!-- Avatar / Perfil -->
+                <a href="{% url 'editar_perfil_acudientes' %}">
+                    <img src="{% static 'images/acudientes/perfil.png' %}" class="user-avatar" alt="Perfil">
+                </a>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- COLUMNA IZQUIERDA - MÁS GRANDE -->
+            <div class="left-column">
+                <!-- Tarjeta de Saludo -->
+                <div class="greeting-card">
+                    <div class="greeting-text">
+                        <h2>Hola,{{ directivos.Dir_cargo }}, {{ usuario.Us_nombre }} !</h2>
+                        <p>Hoy tienes {{ estudiante.nombre }} (nombre de tu estudiante a cargo) tiene 4 pendientes nuevos.</p>
+                        <a href="{% url 'actividades_acudientes' %}" class="btn-leer-mas">Leer más</a>
+                    </div>
+                    <div class="greeting-illustration">
+                        <img src="{% static 'images/acudientes/lectura.png' %}" class="greeting-illustration" alt="Perfil">
+                    </div>
+                </div>
+
+                <!-- Sección de Notificaciones -->
+                <div class="notifications-section">
+                    <div class="notifications-header">
+                        <h3>Notificaciones</h3>
+                        <a href="{% url 'notificaciones_acudientes' %}" class="ver-todo-btn">Ver todo</a>
+                    </div>
+                    
+                    <div class="notifications-table">
+                        <div class="table-header">
+                            <div class="col-header">Actividades Pendientes</div>
+                            <div class="col-header">Materia</div>
+                            <div class="col-header">Estado</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="col-data activity-name">(Nombre de la actividad)</div>
+                            <div class="col-data subject">(nombre)</div>
+                            <div class="col-data status">• Sin entregar.</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="col-data activity-name">(Nombre de la actividad)</div>
+                            <div class="col-data subject">(nombre)</div>
+                            <div class="col-data status">• Sin entregar.</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="col-data activity-name">(Nombre de la actividad)</div>
+                            <div class="col-data subject">(nombre)</div>
+                            <div class="col-data status">• Sin entregar.</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="col-data activity-name">(Nombre de la actividad)</div>
+                            <div class="col-data subject">(nombre)</div>
+                            <div class="col-data status">• Sin entregar.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA - MÁS PEQUEÑA -->
+            <div class="right-column">
+                <!-- Calendario -->
+                <div class="calendar-widget">
+                    <div class="calendar-header">
+                        <button class="nav-btn prev-btn">‹</button>
+                        <h4>Noviembre, 2024</h4>
+                        <button class="nav-btn next-btn">›</button>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="day-header">DO</div>
+                        <div class="day-header">LU</div>
+                        <div class="day-header">MA</div>
+                        <div class="day-header">MI</div>
+                        <div class="day-header">JU</div>
+                        <div class="day-header">VI</div>
+                        <div class="day-header">SA</div>
+                        
+                        <div class="day-cell prev-month">27</div>
+                        <div class="day-cell prev-month">28</div>
+                        <div class="day-cell prev-month">29</div>
+                        <div class="day-cell prev-month">30</div>
+                        <div class="day-cell prev-month">31</div>
+                        <div class="day-cell">01</div>
+                        <div class="day-cell">02</div>
+                        
+                        <div class="day-cell">03</div>
+                        <div class="day-cell">04</div>
+                        <div class="day-cell">05</div>
+                        <div class="day-cell">06</div>
+                        <div class="day-cell">07</div>
+                        <div class="day-cell">08</div>
+                        <div class="day-cell">09</div>
+                        
+                        <div class="day-cell">10</div>
+                        <div class="day-cell">11</div>
+                        <div class="day-cell">12</div>
+                        <div class="day-cell">13</div>
+                        <div class="day-cell">14</div>
+                        <div class="day-cell">15</div>
+                        <div class="day-cell">16</div>
+                        
+                        <div class="day-cell">17</div>
+                        <div class="day-cell">18</div>
+                        <div class="day-cell">19</div>
+                        <div class="day-cell">20</div>
+                        <div class="day-cell current-day">21</div>
+                        <div class="day-cell">22</div>
+                        <div class="day-cell">23</div>
+                        
+                        <div class="day-cell">24</div>
+                        <div class="day-cell">25</div>
+                        <div class="day-cell">26</div>
+                        <div class="day-cell">27</div>
+                        <div class="day-cell">28</div>
+                        <div class="day-cell">29</div>
+                        <div class="day-cell">30</div>
+                    </div>
+                </div>
+
+                <!-- Perfil del Estudiante -->
+                <div class="student-profile">
+                    <div class="student-avatar">
+                        <img src="{% static 'images/acudientes/perfil.png' %}" class="student-avatar"alt="Perfil">
+                    </div>
+                    <h4 class="student-name">{{ usuario.Us_nombre }}</h4>
+                    <p class="student-role">Acudiente</p>
+                    
+
+                    
+                    <div class="student-info">
+                        <div class="info-row">
+                            <span class="info-label">Estado</span>
+                            <span class="info-value">Acudiente</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Fecha registro</span>
+                            <span class="info-value">{{ usuario.fecha_registro }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Pendientes</span>
+                            <span class="info-value pending-count">4 pendientes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="logout-modal" class="modal">
+    <div class="modal-content">
+        <h2>¿Cerrar Sesión?</h2>
+        <div class="modal-actions">
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-confirm">Confirmar</button>
+            </form>
+            <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+    <script>
+        const modal = document.getElementById('logout-modal');
+
+        function openModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Cierra si clic fuera del modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
